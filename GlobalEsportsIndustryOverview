@@ -1,0 +1,219 @@
+import React from 'react';
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { DollarSign, TrendingUp, Users, PieChart as PieChartIcon, BarChart2, Gamepad2, Tv } from 'lucide-react';
+
+// --- 数据定义 ---
+
+// 1. 区域市场分销数据 (2025年预估)
+const regionalRevenueData = [
+  { name: 'United States', value: 1200, percentage: '25.0%' },
+  { name: 'China', value: 960, percentage: '20.0%' },
+  { name: 'South Korea', value: 480, percentage: '10.0%' },
+  { name: 'Germany', value: 240, percentage: '5.0%' },
+  { name: 'India', value: 240, percentage: '5.0%' },
+  { name: 'Others', value: 1680, percentage: '35.0%' },
+];
+const REGIONAL_COLORS = ['#0088FE', '#FF4444', '#FFBB28', '#00C49F', '#AF52DE', '#808080'];
+
+// 2. 收入细分数据 (2025年预估, 单位: 亿美元)
+const segmentRevenueData = [
+  { name: 'Esports Betting', 'Revenue (USD Billions)': 2.8 },
+  { name: 'Sponsorship & Advertising', 'Revenue (USD Billions)': 1.6 },
+  { name: 'Media Rights', 'Revenue (USD Billions)': 0.2 },
+  { name: 'Streaming', 'Revenue (USD Billions)': 0.1 },
+  { name: 'Merchandise & Ticketing', 'Revenue (USD Billions)': 0.1 },
+];
+const SEGMENT_COLORS = ['#E53935', '#1E88E5', '#FDD835', '#43A047', '#8E24AA'];
+
+// 3. 流媒体平台市场份额数据 (2025年预估)
+const streamingPlatformData = [
+  { name: 'Twitch', value: 45 },
+  { name: 'YouTube Gaming', value: 30 },
+  { name: 'Huya', value: 15 },
+  { name: 'Facebook Gaming', value: 5 },
+  { name: 'Trovo', value: 5 },
+];
+const STREAMING_COLORS = ['#9146FF', '#FF0000', '#FFA500', '#1877F2', '#00BFFF'];
+
+
+// --- 辅助组件 ---
+
+// 章节标题组件
+const SectionHeader = ({ title, subtitle, icon }) => (
+  <div className="mb-8">
+    <div className="flex items-center border-b border-slate-200 pb-4 mb-4">
+      {icon}
+      <h2 className="text-2xl font-bold text-slate-800">{title}</h2>
+    </div>
+    <p className="text-slate-600 max-w-4xl">{subtitle}</p>
+  </div>
+);
+
+// 数据统计卡片组件
+const StatCard = ({ value, label, icon }) => (
+  <div className="bg-white border border-slate-200 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="flex justify-center items-center text-blue-500 mb-3">
+        {icon}
+    </div>
+    <p className="text-4xl font-bold text-blue-600">{value}</p>
+    <p className="text-sm text-slate-500 mt-1">{label}</p>
+  </div>
+);
+
+// 图表容器组件
+const ChartContainer = ({ title, children }) => (
+    <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-slate-700 mb-4 text-center">{title}</h3>
+        <div className="w-full h-80">
+            {children}
+        </div>
+    </div>
+);
+
+
+/**
+ * 全球电竞市场深度分析报告 (2025)
+ * 该组件展示了全球电竞市场的概览、区域分布、收入构成及关键领域动态。
+ */
+export default function GlobalEsportsMarketReport() {
+  return (
+    <div className="bg-slate-50 font-sans p-4 sm:p-6 md:p-10">
+      <div className="max-w-7xl mx-auto space-y-12">
+        
+        {/* 1. 全球电竞市场概览 */}
+        <section>
+          <SectionHeader 
+            title="全球电竞市场概览"
+            subtitle="全球电竞市场是全球增长最快的娱乐领域之一。根据经过验证的市场调研，该行业涵盖了竞技电子游戏赛事、锦标赛、联赛及相关的收入来源，包括赞助、媒体权利、商品销售和博彩活动。"
+            icon={<Gamepad2 className="w-8 h-8 mr-3 text-blue-600" />}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard value="48亿 美元" label="2025年全球市值" icon={<DollarSign className="w-8 h-8"/>} />
+            <StatCard value="5.54%" label="年增长率" icon={<TrendingUp className="w-8 h-8"/>} />
+            <StatCard value="7.2亿" label="全球用户 2025" icon={<Users className="w-8 h-8"/>} />
+            <StatCard value="6.19 美元" label="每位用户的平均收入" icon={<DollarSign className="w-8 h-8"/>} />
+          </div>
+        </section>
+
+        {/* 2. 区域市场分销 */}
+        <section>
+          <SectionHeader 
+            title="区域市场分销"
+            subtitle="全球电竞收入分布在主要市场集中，北美和亚太地区占据总收入主导地位。区域分析揭示了不同地理区域用户参与度、变现策略和市场成熟度的独特模式。"
+            icon={<PieChartIcon className="w-8 h-8 mr-3 text-blue-600" />}
+          />
+          <ChartContainer title="Esports Revenue by Region (2025)">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  data={regionalRevenueData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius="60%"
+                  outerRadius="80%"
+                  fill="#8884d8"
+                  paddingAngle={5}
+                  dataKey="value"
+                  labelLine={false}
+                >
+                  {regionalRevenueData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={REGIONAL_COLORS[index % REGIONAL_COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value, name, props) => [`${props.payload.percentage} (${value}M USD)`, name]} />
+                <Legend iconSize={10} />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </section>
+
+        {/* 3. 收入细分分析 */}
+        <section>
+          <SectionHeader 
+            title="收入细分分析"
+            subtitle="电竞经济通过多元收入渠道运作，电竞博彩成为主导的变现渠道。本细分板块分析揭示了行业不同方面如何贡献整体市场价值，并识别出各种商业模式中的增长机会。"
+            icon={<BarChart2 className="w-8 h-8 mr-3 text-blue-600" />}
+          />
+          <ChartContainer title="Esports Revenue by Segment (2025)">
+            <ResponsiveContainer>
+                <BarChart data={segmentRevenueData} layout="vertical" margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 3]} tickFormatter={(tick) => `${tick.toFixed(1)}`} />
+                    <YAxis dataKey="name" type="category" width={120} />
+                    <Tooltip formatter={(value) => [`${value} Billion USD`, 'Revenue']} />
+                    <Legend />
+                    <Bar dataKey="Revenue (USD Billions)" barSize={30}>
+                        {segmentRevenueData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]} />
+                        ))}
+                    </Bar>
+                </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </section>
+
+        {/* 4. 关键市场动态 */}
+        <section>
+            <SectionHeader 
+                title="关键市场动态"
+                subtitle="深入分析电竞产业中最大的两个收入来源：电竞博彩和企业赞助。"
+                icon={<TrendingUp className="w-8 h-8 mr-3 text-blue-600" />}
+            />
+            <div className="space-y-10">
+                {/* 电竞博彩市场动态 */}
+                <div className="bg-white border border-slate-200 rounded-lg p-8 shadow-sm">
+                    <h3 className="text-xl font-semibold text-slate-800 mb-2">电竞博彩市场动态</h3>
+                    <p className="text-slate-600 mb-6">电竞博彩领域是最大的收入来源，2025年创造了28亿美元。这一相当比例反映了竞技游戏作为合法投注类别日益被接受，主要市场的监管框架支持，以及粉丝对预测性游戏活动的参与度提升。</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <StatCard value="28亿 美元" label="电子竞技博彩收入" icon={<DollarSign className="w-8 h-8"/>} />
+                        <StatCard value="58.3%" label="市场份额" icon={<PieChartIcon className="w-8 h-8"/>} />
+                        <StatCard value="34.90 美元" label="每位用户的平均收入" icon={<DollarSign className="w-8 h-8"/>} />
+                        <StatCard value="5.43%" label="年增长率" icon={<TrendingUp className="w-8 h-8"/>} />
+                    </div>
+                </div>
+                {/* 赞助与广告收入 */}
+                <div className="bg-white border border-slate-200 rounded-lg p-8 shadow-sm">
+                    <h3 className="text-xl font-semibold text-slate-800 mb-2">赞助与广告收入</h3>
+                    <p className="text-slate-600">企业赞助和广告合作构成了第二大收入领域，年收入达16亿美元。大型品牌越来越认可电竞渠道是触达年轻群体的有效渠道，尤其是在18至34岁这一传统广告渠道效果下降的人群中。</p>
+                </div>
+            </div>
+        </section>
+
+
+        {/* 5. 流媒体平台生态系统 */}
+        <section>
+          <SectionHeader 
+            title="流媒体平台生态系统"
+            subtitle="数字直播平台是电竞内容分发和观众互动的关键基础设施。这些平台通过订阅、广告和集成投注功能产生收入，同时为竞技游戏活动提供关键的可见性。"
+            icon={<Tv className="w-8 h-8 mr-3 text-blue-600" />}
+          />
+          <ChartContainer title="Streaming Platform Market Share (2025)">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  data={streamingPlatformData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius="85%"
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                >
+                  {streamingPlatformData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={STREAMING_COLORS[index % STREAMING_COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => [`${value}%`, 'Market Share']} />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </section>
+
+        <footer className="text-center text-slate-500 text-sm pt-8 border-t border-slate-200">
+            <p>数据来源：基于公开市场研究报告和行业分析（2025年预测）。</p>
+            <p>&copy; 2026 全球电竞市场分析报告. All rights reserved.</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
